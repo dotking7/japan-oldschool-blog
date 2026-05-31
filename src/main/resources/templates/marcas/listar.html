@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="text-accent mb-0">GESTIÓN DE MARCAS</h1>
+                <p class="text-muted small">Administra los fabricantes disponibles</p>
+            </div>
+            <a href="/marcas/crear" class="btn btn-custom"><i class="fas fa-plus"></i> NUEVA MARCA</a>
+        </div>
+
+        <div th:if="${marcas.isEmpty()}" class="alert bg-dark text-accent border-accent text-center py-5">
+            <i class="fas fa-tags fa-3x mb-3"></i>
+            <p class="mb-0">No hay marcas registradas.</p>
+        </div>
+
+        <div th:if="${!marcas.isEmpty()}" class="panel-card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-dark align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOMBRE DE LA MARCA</th>
+                            <th class="text-end">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="marca : ${marcas}">
+                            <td th:text="${marca.idmarca}">ID</td>
+                            <td class="fw-bold text-accent" th:text="${marca.nombre}">NOMBRE</td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <a th:href="@{/marcas/editar/{id}(id=${marca.idmarca})}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/marcas/eliminar/{id}(id=${marca.idmarca})}" class="btn btn-sm btn-outline-danger" 
+                                       onclick="return confirm('¿Eliminar esta marca? Los artículos asociados perderán su marca pero no serán borrados.')" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

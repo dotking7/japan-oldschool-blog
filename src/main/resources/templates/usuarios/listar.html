@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="text-accent mb-0">USUARIOS</h1>
+                <p class="text-muted small">Administra las cuentas</p>
+            </div>
+            <a href="/usuarios/crear" class="btn btn-custom"><i class="fas fa-user-plus"></i> NUEVO</a>
+        </div>
+
+        <div th:if="${usuarios.isEmpty()}" class="alert bg-dark text-accent border-accent text-center py-5">
+            No hay usuarios todavia.
+        </div>
+
+        <div th:if="${!usuarios.isEmpty()}" class="panel-card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-dark align-middle">
+                    <thead>
+                        <tr>
+                            <th>USUARIO</th>
+                            <th>ROLES</th>
+                            <th class="text-end">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td class="fw-bold text-accent" th:text="${usuario.username}">USUARIO</td>
+                            <td>
+                                <span th:each="rol : ${usuario.roles}" class="badge bg-dark border border-secondary me-1" th:text="${rol.rol}">ROL</span>
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <a th:href="@{/usuarios/editar/{id}(id=${usuario.idusuario})}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/usuarios/eliminar/{id}(id=${usuario.idusuario})}" class="btn btn-sm btn-outline-danger" 
+                                       onclick="return confirm('¿Eliminar este usuario?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

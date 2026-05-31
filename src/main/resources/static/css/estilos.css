@@ -1,0 +1,265 @@
+/* estilos.css - Japan Oldschool Blog */
+
+:root {
+    --accent: #f79918;
+    --dark-bg: #000000;
+    --card-bg: #2a2a2a;
+    --text-main: #ffffff;
+    --text-muted: #b0b0b0;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, .navbar-brand, .btn-titles {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* navbar */
+.site-navbar {
+    background-color: rgba(0,0,0,0.98);
+    border-bottom: 3px solid var(--accent);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-brand {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/* logo - tamaño segun layout adjunto */
+.navbar-brand img {
+    height: auto;
+    width: auto;
+    max-width: 400px;
+    max-height: 110px;
+    display: block;
+}
+
+.footer-logo {
+    height: 100px;
+    width: auto;
+}
+
+.nav-link {
+    color: var(--text-main);
+    font-weight: 700;
+    margin-left: 0.8rem;
+    text-transform: uppercase;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.3rem;
+    transition: color 0.3s;
+}
+
+/* necesitamos !important aqui porque bootstrap pone su propio color en .nav-link */
+.site-navbar .nav-link { color: var(--text-main) !important; }
+.site-navbar .nav-link:hover { color: var(--accent) !important; }
+
+.text-accent { color: var(--accent); }
+.border-accent { border-color: var(--accent); }
+
+/* hamburgesa movil */
+.navbar-toggler {
+    border: 2px solid var(--accent);
+    padding: 0.4rem 0.7rem;
+}
+
+.navbar-toggler:focus { box-shadow: none; }
+
+@media (max-width: 991.98px) {
+    .navbar-brand img { max-height: 84px; }
+
+    .navbar-collapse {
+        background: rgba(0,0,0,0.97);
+        padding: 1rem 1.2rem;
+        border: 1px solid var(--accent);
+        margin-top: 0.8rem;
+        border-radius: 4px;
+    }
+
+    .navbar-nav { text-align: center; }
+
+    .nav-link {
+        margin-left: 0;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid #222;
+        display: block;
+    }
+
+    .nav-link:last-child { border-bottom: none; }
+    .ms-auto { margin-left: 0; }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand img { max-height: 68px; }
+    .footer-logo { height: 117px; }
+}
+
+/* tarjetas y paneles */
+.panel-card, .form-container, .articulo-container, .card {
+    background-color: var(--card-bg);
+    border: 1px solid #222;
+    border-radius: 0;
+    color: var(--text-main);
+}
+
+.post-card {
+    background-color: var(--card-bg);
+    border: 1px solid #222;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+}
+
+.post-card img {
+    height: 220px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-body { padding: 1.2rem; }
+
+.post-meta {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+/* marca del articulo al doble de tamaño que el resto del post-meta */
+.post-meta .marca-articulo {
+    font-size: 1.6rem;
+    vertical-align: middle;
+}
+
+/* autor en minusculas para que no quede todo en mayus */
+.post-meta .autor-articulo {
+    text-transform: none;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.post-title {
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.post-title:hover { color: var(--accent); }
+
+/* botones */
+.btn-custom {
+    background-color: var(--accent);
+    color: #000;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.8rem;
+    border-radius: 0;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-custom:hover { background-color: #ffffff; color: #000; }
+
+.btn-outline-brand {
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    font-family: 'Bebas Neue', cursive;
+    border-radius: 0;
+    font-size: 1rem;
+}
+
+.btn-outline-brand:hover { background-color: var(--accent); color: #000; }
+
+/* formularios - bootstrap sobreescribe el fondo y color, necesitamos !important aqui */
+.form-control,
+.form-select {
+    background-color: #1a1a1a !important;
+    border: 1px solid #444 !important;
+    color: #ffffff !important;
+    border-radius: 0;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #222 !important;
+    border-color: var(--accent) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* fix autofill de chrome/safari - ponen fondo azul/blanco y no se ve nada */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-control::placeholder { color: #888; opacity: 1; }
+
+.form-label { color: var(--text-muted); font-size: 0.85rem; font-weight: 700; }
+
+.form-select option {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+/* tablas admin */
+.table-dark { --bs-table-bg: #111; }
+
+/* footer */
+.footer {
+    background-color: #000;
+    border-top: 1px solid #222;
+    padding: 2.5rem 0;
+    margin-top: auto;
+    color: var(--text-muted);
+}
+
+/* carrusel home */
+.carousel-item { height: 500px; }
+.carousel-item img { object-fit: cover; height: 100%; filter: brightness(0.5); }
+.carousel-caption h2 { font-size: 3.5rem; color: var(--accent); text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
+
+@media (max-width: 767px) {
+    .carousel-item { height: 280px; }
+    .carousel-caption h2 { font-size: 2rem; }
+}
+
+.user-info-text { color: var(--accent); font-size: 1rem; }
+
+/* badge autor en articulos */
+.badge-autor {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* comentarios anidados */
+.comentario-bloque {
+    margin-bottom: 0.5rem;
+}

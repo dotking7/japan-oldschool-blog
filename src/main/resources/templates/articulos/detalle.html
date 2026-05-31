@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <a href="/" class="btn btn-outline-brand mb-4"><i class="fas fa-arrow-left"></i> VOLVER AL INICIO</a>
+
+                <article class="articulo-container p-4 p-lg-5">
+                    <div class="post-meta mb-3">
+                        <span class="marca-articulo" th:text="${articulo.marca != null ? articulo.marca.nombre : 'JAPAN'}">MARCA</span>
+                        <span class="mx-2">|</span>
+                        <span th:text="${#temporals.format(articulo.fecha, 'dd/MM/yyyy')}">FECHA</span>
+                        <span class="mx-2">|</span>
+                        <span class="autor-articulo">Escrito por: <strong th:text="${nombreAutorArticulo}">AUTOR</strong></span>
+                    </div>
+
+                    <h1 class="display-4 mb-4 text-accent" th:text="${articulo.titulo}">TITULO</h1>
+
+                    <img th:src="@{'/imagenes/' + ${articulo.imagen}}" class="img-fluid rounded-3 mb-5 w-100"
+                         style="max-height: 600px; object-fit: cover;" alt="Imagen"
+                         onerror="this.src='https://via.placeholder.com/1000x600?text=Sin+Imagen'">
+
+                    <div class="articulo-texto text-light"
+                         style="white-space: pre-wrap; line-height: 1.7; font-size: 0.92rem;"
+                         th:text="${articulo.texto}">TEXTO</div>
+                </article>
+
+                <!-- seccion comentarios -->
+                <div class="card mt-5 p-4 p-lg-5">
+                    <h3 class="text-accent mb-4">COMENTARIOS</h3>
+
+                    <!-- formulario para escribir un comentario, solo si estas logueado -->
+                    <div sec:authorize="isAuthenticated()" class="mb-5">
+                        <form th:action="@{/comentarios/guardar/{id}(id=${articulo.idarticulo})}" method="post">
+                            <div class="mb-3">
+                                <textarea class="form-control" name="texto" rows="3" placeholder="Escribe tu comentario..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-custom">PUBLICAR</button>
+                        </form>
+                    </div>
+
+                    <!-- si no estas logueado avisamos -->
+                    <div sec:authorize="isAnonymous()" class="alert bg-dark border-secondary text-muted mb-5">
+                        Debes <a href="/login" class="text-accent">iniciar sesion</a> para comentar.
+                    </div>
+
+                    <!-- si no hay comentarios -->
+                    <div th:if="${articulo.comentarios == null or articulo.comentarios.isEmpty()}"
+                         class="text-muted text-center py-4">
+                        Aun no hay comentarios en este articulo.
+                    </div>
+
+                    <!-- listado comentarios -->
+                    <div th:each="comentario : ${articulo.comentarios}" class="mb-3 p-3 bg-dark rounded">
+                        <div class="mb-2">
+                            <span class="text-accent fw-bold small">
+                                <i class="fas fa-user-circle"></i>
+                                <!-- nombre del usuario que comento -->
+                                <span th:text="${comentario.usuario != null ? comentario.usuario.username : 'usuario'}">USUARIO</span>
+                            </span>
+                        </div>
+                        <p class="text-light mb-2" th:text="${comentario.texto}">TEXTO</p>
+
+                        <!-- botones admin: editar y borrar -->
+                        <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="mt-2 d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-warning"
+                                    th:onclick="'document.getElementById(\'edit-' + ${comentario.idcomentario} + '\').style.display=\'block\''">
+                                EDITAR
+                            </button>
+                            <a th:href="@{/comentarios/eliminar/{id}(id=${comentario.idcomentario})}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('¿Borrar este comentario?')">ELIMINAR</a>
+
+                            <!-- formulario editar, oculto por defecto -->
+                            <div th:id="'edit-' + ${comentario.idcomentario}" style="display:none; width:100%;" class="mt-2">
+                                <form th:action="@{/comentarios/editar/{id}(id=${comentario.idcomentario})}" method="post">
+                                    <textarea class="form-control mb-2" name="texto" rows="2" required
+                                              th:text="${comentario.texto}"></textarea>
+                                    <button type="submit" class="btn btn-sm btn-custom">GUARDAR</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            th:onclick="'document.getElementById(\'edit-' + ${comentario.idcomentario} + '\').style.display=\'none\''">CANCELAR</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

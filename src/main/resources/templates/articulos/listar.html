@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="text-accent mb-0">ARTICULOS</h1>
+                <p class="text-muted small">Gestiona las entradas del blog</p>
+            </div>
+            <a href="/articulos/crear" class="btn btn-custom"><i class="fas fa-plus"></i> NUEVO ARTICULO</a>
+        </div>
+
+        <div th:if="${articulos == null or articulos.isEmpty()}" class="alert bg-dark text-accent border-accent text-center py-5">
+            <i class="fas fa-folder-open fa-3x mb-3"></i>
+            <p class="mb-0">No hay articulos todavia.</p>
+        </div>
+
+        <div th:if="${articulos != null and !articulos.isEmpty()}" class="panel-card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-dark align-middle">
+                    <thead>
+                        <tr>
+                            <th>TITULO</th>
+                            <th>MARCA</th>
+                            <th>AUTOR</th>
+                            <th>FECHA</th>
+                            <th class="text-end">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="articulo : ${articulos}">
+                            <td class="fw-bold" th:text="${articulo.titulo}">TITULO</td>
+                            <td>
+                                <span class="badge bg-dark border border-secondary text-accent"
+                                      th:text="${articulo.marca != null ? articulo.marca.nombre : 'SIN MARCA'}">MARCA</span>
+                            </td>
+                            <!-- nombre del autor: si no tiene autor asignado mostramos JapanOldschool -->
+                            <td class="text-muted small"
+                                th:text="${articulo.autor != null ? articulo.autor.username : 'JapanOldschool'}">AUTOR</td>
+                            <td th:text="${#temporals.format(articulo.fecha, 'dd/MM/yyyy')}">FECHA</td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}" class="btn btn-sm btn-outline-info" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a th:href="@{/articulos/editar/{id}(id=${articulo.idarticulo})}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <!-- eliminar solo para admin -->
+                                    <a sec:authorize="hasAuthority('ROLE_ADMIN')"
+                                       th:href="@{/articulos/eliminar/{id}(id=${articulo.idarticulo})}"
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('¿Seguro que quieres borrar este articulo?')" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

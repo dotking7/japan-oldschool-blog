@@ -1,0 +1,64 @@
+<!-- fragmento navbar - se inserta en el layout -->
+<nav th:fragment="menu-principal" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <!-- logo arriba a la izquierda, siempre visible -->
+            <img th:src="@{/images/logo.png}" alt="JAPAN OLDSCHOOL">
+        </a>
+
+        <!-- boton menu movil -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color: #f79918; font-size: 1.4rem;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">INICIO</a>
+                </li>
+
+                <!-- admin y autor ven "ARTICULOS" -->
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_AUTOR')">
+                    <a class="nav-link" href="/articulos/listar">ARTICULOS</a>
+                </li>
+
+                <!-- solo el admin ve marcas y usuarios -->
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" href="/marcas/listar">MARCAS</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
+                    <a class="nav-link" href="/usuarios/listar">USUARIOS</a>
+                </li>
+
+                <!-- si no esta logueado -->
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" href="/login">LOGIN</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" href="/usuarios/signup">REGISTRO</a>
+                </li>
+
+                <!-- nombre del usuario conectado -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <span class="nav-link user-info-text">
+                        <i class="fas fa-user-circle"></i>
+                        <span sec:authentication="name">USUARIO</span>
+                    </span>
+                </li>
+
+                <!-- boton salir -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-outline-brand ms-lg-2 mt-2 mt-lg-0">SALIR</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

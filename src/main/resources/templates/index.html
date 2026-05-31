@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section>
+        <!-- carrusel de fotos arriba, se mueve solo -->
+        <div th:if="${carrusel != null and !carrusel.isEmpty()}" id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button th:each="item, iter : ${carrusel}" type="button" data-bs-target="#mainCarousel"
+                        th:data-bs-slide-to="${iter.index}" th:classappend="${iter.index == 0} ? 'active'"></button>
+            </div>
+            <div class="carousel-inner">
+                <div th:each="articulo, iter : ${carrusel}" class="carousel-item" th:classappend="${iter.index == 0} ? 'active'">
+                    <a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}">
+                        <img th:src="@{'/imagenes/' + ${articulo.imagen}}" class="d-block w-100" alt="Imagen"
+                             onerror="this.src='https://via.placeholder.com/1200x500?text=Sin+Imagen'">
+                        <div class="carousel-caption">
+                            <p class="post-meta" th:text="${articulo.marca != null ? articulo.marca.nombre : 'JAPAN'}">MARCA</p>
+                            <h2 th:text="${articulo.titulo}">TITULO</h2>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+
+        <div class="container py-5">
+            <!-- botones para filtrar por marca -->
+            <div class="text-center mb-5">
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    <!-- TODO muestra todos los articulos -->
+                    <a href="/" class="btn" th:classappend="${marcaSeleccionada == null} ? 'btn-custom' : 'btn-outline-brand'">TODO</a>
+                    <a th:each="marca : ${marcas}"
+                       th:href="@{/(marca=${marca.idmarca})}"
+                       class="btn"
+                       th:classappend="${marcaSeleccionada != null and marcaSeleccionada.idmarca == marca.idmarca} ? 'btn-custom' : 'btn-outline-brand'"
+                       th:text="${marca.nombre}">MARCA</a>
+                </div>
+            </div>
+
+            <!-- articulos -->
+            <div class="row g-4">
+                <div th:if="${articulos.isEmpty()}" class="col-12 text-center">
+                    <div class="alert bg-dark text-accent border-accent">No hay articulos todavia.</div>
+                </div>
+                <div th:each="articulo : ${articulos}" class="col-md-6 col-lg-4">
+                    <article class="post-card">
+                        <a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}">
+                            <img th:src="@{'/imagenes/' + ${articulo.imagen}}" class="card-img-top" alt="Imagen"
+                                 onerror="this.src='https://via.placeholder.com/600x350?text=Sin+Imagen'">
+                        </a>
+                        <div class="card-body">
+                            <div class="post-meta">
+                                <span th:text="${articulo.marca != null ? articulo.marca.nombre : 'JAPAN'}">MARCA</span>
+                                <span class="mx-2">|</span>
+                                <span th:text="${#temporals.format(articulo.fecha, 'dd/MM/yyyy')}">FECHA</span>
+                            </div>
+                            <h3><a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}" class="post-title" th:text="${articulo.titulo}">TITULO</a></h3>
+                            <p class="text-muted" th:text="${#strings.abbreviate(articulo.texto, 100)}">TEXTO</p>
+                            <a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}" class="btn btn-sm btn-outline-brand">LEER MAS</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

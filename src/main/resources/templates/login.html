@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <!-- Cuadro para poner los datos de entrada -->
+                <div class="form-container p-5">
+                    <h2 class="text-center text-accent mb-4">INICIAR SESION</h2>
+                    
+                    <!-- Si el usuario se equivoca, sale este aviso -->
+                    <div th:if="${param.error}" class="alert alert-danger text-center bg-dark text-danger border-danger">
+                        Usuario o contraseña incorrectos
+                    </div>
+                    
+                    <!-- Si se acaba de registrar bien, sale este aviso -->
+                    <div th:if="${param.registered != null}" class="alert alert-success text-center bg-dark text-success border-success">
+                        ¡Registro completado! Ya puedes iniciar sesion.
+                    </div>
+                    
+                    <!-- Si acaba de salir de la cuenta, sale este aviso -->
+                    <div th:if="${param.logout}" class="alert alert-info text-center bg-dark text-info border-info">
+                        Has cerrado sesion correctamente.
+                    </div>
+                    
+                    <!-- Formulario para entrar -->
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-4">
+                            <label for="username" class="form-label">USUARIO</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label">CONTRASEÑA</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-custom w-100">ENTRAR</button>
+                    </form>
+                    
+                    <!-- Por si todavia no tiene cuenta -->
+                    <div class="text-center mt-4">
+                        <p class="text-muted">¿No tienes cuenta? <a href="/usuarios/signup" class="text-accent text-decoration-none">Registrate aqui</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

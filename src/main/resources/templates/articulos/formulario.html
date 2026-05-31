@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
+<body>
+    <section class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="text-accent mb-0" th:text="${articulo.idarticulo != null ? 'EDITAR ARTÍCULO' : 'CREAR ARTÍCULO'}">ARTÍCULO</h1>
+                    <a href="/articulos/listar" class="btn btn-outline-secondary">VOLVER AL LISTADO</a>
+                </div>
+
+                <div class="form-container p-4 p-lg-5">
+                    <form th:action="${articulo.idarticulo != null ? '/articulos/actualizar' : '/articulos/guardar'}" 
+                          method="post" enctype="multipart/form-data" th:object="${articulo}">
+                        
+                        <input type="hidden" th:field="*{idarticulo}" th:if="${articulo.idarticulo != null}">
+
+                        <div class="mb-4">
+                            <label for="titulo" class="form-label">TÍTULO DEL ARTÍCULO</label>
+                            <input type="text" class="form-control" id="titulo" th:field="*{titulo}" required 
+                                   placeholder="Ej: Restauración Honda CB750">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="marca" class="form-label">MARCA</label>
+                                <select class="form-select" id="marca" name="idmarca" required>
+                                    <option value="">Selecciona una marca</option>
+                                    <option th:each="marca : ${marcas}" 
+                                            th:value="${marca.idmarca}" 
+                                            th:selected="${articulo.marca != null and articulo.marca.idmarca == marca.idmarca}" 
+                                            th:text="${marca.nombre}">MARCA</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <label for="fecha" class="form-label">FECHA DE CREACIÓN</label>
+                                <input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="texto" class="form-label">CONTENIDO</label>
+                            <textarea class="form-control" id="texto" th:field="*{texto}" rows="10" required 
+                                      placeholder="Escribe aquí la historia o detalles técnicos..."></textarea>
+                        </div>
+
+                        <div class="mb-5">
+                            <label for="archivoImagen" class="form-label">IMAGEN DEL ARTÍCULO</label>
+                            <input type="file" class="form-control" id="archivoImagen" name="archivoImagen" accept="image/*">
+                            <div th:if="${articulo.imagen != null}" class="mt-2">
+                                <small class="text-muted italic">Imagen actual: <span th:text="${articulo.imagen}"></span></small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-3">
+                            <a href="/articulos/listar" class="btn btn-outline-secondary">CANCELAR</a>
+                            <button type="submit" class="btn btn-custom px-5">
+                                <i class="fas fa-save me-2"></i> <span th:text="${articulo.idarticulo != null ? 'ACTUALIZAR' : 'GUARDAR'}">GUARDAR</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
