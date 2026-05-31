@@ -4,7 +4,7 @@
 # ================================================================
 
 [build]
-# Railway detecta Maven automaticamente con Nixpacks
+# Railway detecta Maven automaticamente con Railpack
 builder = "nixpacks"
 
 [deploy]
@@ -14,3 +14,6 @@ healthcheckPath = "/"
 healthcheckTimeout = 120
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
+
+[deploy.variables]
+RAILPACK_JDK_VERSION = "21"
