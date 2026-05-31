@@ -3,9 +3,7 @@
 # Colocar en la raiz del proyecto (junto a pom.xml)
 # ================================================================
 
-[build]
 # Railway detecta Maven automaticamente con Railpack
-builder = "nixpacks"
 
 [deploy]
 # JAR generado por Maven (artifactId-version.jar segun pom.xml)
