@@ -26,11 +26,10 @@
                          th:text="${articulo.texto}">TEXTO</div>
                 </article>
 
-                <!-- seccion comentarios -->
                 <div class="card mt-5 p-4 p-lg-5">
                     <h3 class="text-accent mb-4">COMENTARIOS</h3>
 
-                    <!-- formulario para escribir un comentario, solo si estas logueado -->
+                    <!-- formulario comentarios -->
                     <div sec:authorize="isAuthenticated()" class="mb-5">
                         <form th:action="@{/comentarios/guardar/{id}(id=${articulo.idarticulo})}" method="post">
                             <div class="mb-3">
@@ -40,29 +39,28 @@
                         </form>
                     </div>
 
-                    <!-- si no estas logueado avisamos -->
+                    <!-- aviso de  login-->
                     <div sec:authorize="isAnonymous()" class="alert bg-dark border-secondary text-muted mb-5">
                         Debes <a href="/login" class="text-accent">iniciar sesion</a> para comentar.
                     </div>
 
-                    <!-- si no hay comentarios -->
                     <div th:if="${articulo.comentarios == null or articulo.comentarios.isEmpty()}"
                          class="text-muted text-center py-4">
                         Aun no hay comentarios en este articulo.
                     </div>
 
-                    <!-- listado comentarios -->
+                    <!-- lista de comentarios -->
                     <div th:each="comentario : ${articulo.comentarios}" class="mb-3 p-3 bg-dark rounded">
                         <div class="mb-2">
                             <span class="text-accent fw-bold small">
                                 <i class="fas fa-user-circle"></i>
-                                <!-- nombre del usuario que comento -->
+                                <!-- autor comentario -->
                                 <span th:text="${comentario.usuario != null ? comentario.usuario.username : 'usuario'}">USUARIO</span>
                             </span>
                         </div>
                         <p class="text-light mb-2" th:text="${comentario.texto}">TEXTO</p>
 
-                        <!-- botones admin: editar y borrar -->
+                        <!-- botones admin coment -->
                         <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="mt-2 d-flex gap-2">
                             <button class="btn btn-sm btn-outline-warning"
                                     th:onclick="'document.getElementById(\'edit-' + ${comentario.idcomentario} + '\').style.display=\'block\''">
@@ -72,7 +70,7 @@
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('¿Borrar este comentario?')">ELIMINAR</a>
 
-                            <!-- formulario editar, oculto por defecto -->
+                            <!-- formulario edit comentarios -->
                             <div th:id="'edit-' + ${comentario.idcomentario}" style="display:none; width:100%;" class="mt-2">
                                 <form th:action="@{/comentarios/editar/{id}(id=${comentario.idcomentario})}" method="post">
                                     <textarea class="form-control mb-2" name="texto" rows="2" required

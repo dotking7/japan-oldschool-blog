@@ -34,7 +34,7 @@
                                 <span class="badge bg-dark border border-secondary text-accent"
                                       th:text="${articulo.marca != null ? articulo.marca.nombre : 'SIN MARCA'}">MARCA</span>
                             </td>
-                            <!-- nombre del autor: si no tiene autor asignado mostramos JapanOldschool -->
+                            <!-- nombre autor -->
                             <td class="text-muted small"
                                 th:text="${articulo.autor != null ? articulo.autor.username : 'JapanOldschool'}">AUTOR</td>
                             <td th:text="${#temporals.format(articulo.fecha, 'dd/MM/yyyy')}">FECHA</td>
@@ -46,7 +46,7 @@
                                     <a th:href="@{/articulos/editar/{id}(id=${articulo.idarticulo})}" class="btn btn-sm btn-outline-warning" title="Editar">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <!-- eliminar solo para admin -->
+                                    <!-- eliminar -->
                                     <a sec:authorize="hasAuthority('ROLE_ADMIN')"
                                        th:href="@{/articulos/eliminar/{id}(id=${articulo.idarticulo})}"
                                        class="btn btn-sm btn-outline-danger"

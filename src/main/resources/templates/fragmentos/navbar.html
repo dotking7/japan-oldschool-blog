@@ -1,13 +1,12 @@
-<!-- fragmento navbar - se inserta en el layout -->
 <nav th:fragment="menu-principal" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <!-- logo arriba a la izquierda, siempre visible -->
+            <!-- logo arriba   -->
             <img th:src="@{/images/logo.png}" alt="JAPAN OLDSCHOOL">
         </a>
 
-        <!-- boton menu movil -->
+        <!-- boton menu -->
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNav"
@@ -23,12 +22,12 @@
                     <a class="nav-link" href="/">INICIO</a>
                 </li>
 
-                <!-- admin y autor ven "ARTICULOS" -->
+                <!-- articulos par a admin y autor -->
                 <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_AUTOR')">
                     <a class="nav-link" href="/articulos/listar">ARTICULOS</a>
                 </li>
 
-                <!-- solo el admin ve marcas y usuarios -->
+                <!-- marcas y usuarios admin-->
                 <li class="nav-item" sec:authorize="hasAuthority('ROLE_ADMIN')">
                     <a class="nav-link" href="/marcas/listar">MARCAS</a>
                 </li>
@@ -36,7 +35,7 @@
                     <a class="nav-link" href="/usuarios/listar">USUARIOS</a>
                 </li>
 
-                <!-- si no esta logueado -->
+                <!-- usuario anonimo -->
                 <li class="nav-item" sec:authorize="isAnonymous()">
                     <a class="nav-link" href="/login">LOGIN</a>
                 </li>
@@ -44,7 +43,7 @@
                     <a class="nav-link" href="/usuarios/signup">REGISTRO</a>
                 </li>
 
-                <!-- nombre del usuario conectado -->
+                <!-- nombre user -->
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <span class="nav-link user-info-text">
                         <i class="fas fa-user-circle"></i>

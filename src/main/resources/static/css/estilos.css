@@ -37,7 +37,7 @@ h1, h2, h3, h4, .navbar-brand, .btn-titles {
     padding-bottom: 5px;
 }
 
-/* logo - tamaño segun layout adjunto */
+/* tamaño del logo */
 .navbar-brand img {
     height: auto;
     width: auto;
@@ -61,7 +61,6 @@ h1, h2, h3, h4, .navbar-brand, .btn-titles {
     transition: color 0.3s;
 }
 
-/* necesitamos !important aqui porque bootstrap pone su propio color en .nav-link */
 .site-navbar .nav-link { color: var(--text-main) !important; }
 .site-navbar .nav-link:hover { color: var(--accent) !important; }
 
@@ -142,13 +141,12 @@ h1, h2, h3, h4, .navbar-brand, .btn-titles {
     margin-bottom: 0.5rem;
 }
 
-/* marca del articulo al doble de tamaño que el resto del post-meta */
+/* tamaño de la marca en el artículo */
 .post-meta .marca-articulo {
     font-size: 1.6rem;
     vertical-align: middle;
 }
 
-/* autor en minusculas para que no quede todo en mayus */
 .post-meta .autor-articulo {
     text-transform: none;
     font-weight: 400;
@@ -191,7 +189,7 @@ h1, h2, h3, h4, .navbar-brand, .btn-titles {
 
 .btn-outline-brand:hover { background-color: var(--accent); color: #000; }
 
-/* formularios - bootstrap sobreescribe el fondo y color, necesitamos !important aqui */
+/* formularios */
 .form-control,
 .form-select {
     background-color: #1a1a1a !important;
@@ -208,7 +206,6 @@ h1, h2, h3, h4, .navbar-brand, .btn-titles {
     box-shadow: none !important;
 }
 
-/* fix autofill de chrome/safari - ponen fondo azul/blanco y no se ve nada */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -259,7 +256,7 @@ select:-webkit-autofill {
     font-style: italic;
 }
 
-/* comentarios anidados */
+/* comentarios */
 .comentario-bloque {
     margin-bottom: 0.5rem;
 }
