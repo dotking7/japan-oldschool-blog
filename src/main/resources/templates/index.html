@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: html(contenido=~{::section})}">
 <body>
     <section>
-        <!-- carrusel de fotos arriba, se mueve solo -->
+        <!-- carrusel de fotos  -->
         <div th:if="${carrusel != null and !carrusel.isEmpty()}" id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button th:each="item, iter : ${carrusel}" type="button" data-bs-target="#mainCarousel"
                         th:data-bs-slide-to="${iter.index}" th:classappend="${iter.index == 0} ? 'active'"></button>
             </div>
-            <div class="carousel-inner">
+             <div class="carousel-inner">
                 <div th:each="articulo, iter : ${carrusel}" class="carousel-item" th:classappend="${iter.index == 0} ? 'active'">
                     <a th:href="@{/articulos/view/{id}(id=${articulo.idarticulo})}">
                         <img th:src="@{'/imagenes/' + ${articulo.imagen}}" class="d-block w-100" alt="Imagen"
@@ -29,10 +29,10 @@
         </div>
 
         <div class="container py-5">
-            <!-- botones para filtrar por marca -->
+            <!-- botones marcas -->
             <div class="text-center mb-5">
-                <div class="d-flex flex-wrap justify-content-center gap-2">
-                    <!-- TODO muestra todos los articulos -->
+                 <div class="d-flex flex-wrap justify-content-center gap-2">
+
                     <a href="/" class="btn" th:classappend="${marcaSeleccionada == null} ? 'btn-custom' : 'btn-outline-brand'">TODO</a>
                     <a th:each="marca : ${marcas}"
                        th:href="@{/(marca=${marca.idmarca})}"
